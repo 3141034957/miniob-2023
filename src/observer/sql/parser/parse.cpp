@@ -48,14 +48,14 @@ RC parse(const char *st, ParsedSqlResult *sql_result)
   return RC::SUCCESS;
 }
 
-int value_init_date(Value *value, const char *v)
+bool value_init_date(Value *value, const char *v)
 {
   value->type = DATES;
   int y, m, d;
   sscanf(v, "%d-%d-%d", &y, &m, &d);  // not check return value eq 3, lex guarantee
   bool b = check_date(y, m, d);
   if (!b)
-    return -1;
+    return FAILURE;
   int dv      = y * 10000 + m * 100 + d;
   value->data = malloc(sizeof(dv));  // TODO:check malloc failure
   memcpy(value->data, &dv, sizeof(dv));
