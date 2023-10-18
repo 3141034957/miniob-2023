@@ -326,3 +326,14 @@ public:
 private:
   std::vector<std::unique_ptr<ParsedSqlNode>> sql_nodes_;  ///< 这里记录SQL命令。虽然看起来支持多个，但是当前仅处理一个
 };
+
+typedef enum
+{
+  UNDEFINED,
+  CHARS,
+  INTS,
+  FLOATS,
+  DATES,
+  TEXTS,
+  NULLS
+} AttrType;
