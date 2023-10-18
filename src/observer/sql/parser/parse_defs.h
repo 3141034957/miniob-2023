@@ -138,6 +138,17 @@ struct UpdateSqlNode
   std::vector<ConditionSqlNode> conditions;
 };
 
+typedef enum
+{
+  UNDEFINED,
+  CHARS,
+  INTS,
+  FLOATS,
+  DATES,
+  TEXTS,
+  NULLS
+} AttrType;
+
 /**
  * @brief 描述一个属性
  * @ingroup SQLParser
