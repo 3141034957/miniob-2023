@@ -45,6 +45,24 @@ public:
    */
   RC init(const char *name, const char *dbpath);
 
+  RC Db::drop_table(const char *table_name)
+  {
+    // 查找要删除的表格
+    Table *table = find_table(table_name);
+    if (table == nullptr) {
+      LOG_WARN("Table %s not found.", table_name);
+      return RC::SCHEMA_TABLE_NOT_EXIST;
+    }
+
+    // 执行删除表格的操作
+    RC result = table->drop();  // 假设有一个 drop 方法用于删除表格
+
+    // 从数据库中移除表格
+    opened_tables_.erase(table_name);
+
+    return result;
+  }
+
   RC create_table(const char *table_name, int attribute_count, const AttrInfoSqlNode *attributes);
 
   Table *find_table(const char *table_name) const;
