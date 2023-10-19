@@ -79,7 +79,7 @@ public:
   RC delete_record(const Record &record);
   RC visit_record(const RID &rid, bool readonly, std::function<void(Record &)> visitor);
   RC get_record(const RID &rid, Record &record);
-  RC destory(const char* dir)
+
   RC recover_insert_record(Record &record);
 
   // TODO refactor
