@@ -51,7 +51,7 @@ public:
   explicit Value(float val);
   explicit Value(bool val);
   explicit Value(const char *s, int len = 0);
-  explicit Value(int date) : attr_type_(DATES), date_value_(date) {}
+  explicit Value(const std::string &date) : attr_type_(DATES), date_value_(date) {}
 
 
   Value(const Value &other) = default;
@@ -71,6 +71,11 @@ public:
   void set_boolean(bool val);
   void set_string(const char *s, int len = 0);
   void set_value(const Value &value);
+  void set_date(const std::string &date)
+  {
+    attr_type_  = DATES;
+    date_value_ = date;
+  }
 
   std::string to_string() const;
 
@@ -96,7 +101,7 @@ public:
   float get_float() const;
   std::string get_string() const;
   bool get_boolean() const;
-  int         get_date() const
+  std::string get_date() const
   {
     if (attr_type_ == DATES) {
       return date_value_;
@@ -112,7 +117,7 @@ private:
     int int_value_;
     float float_value_;
     bool bool_value_;
-    int   date_value_;  // 日期以整数形式表示，如YYYYMMDD
+    std::string date_value_;  // 日期以字符串表示，如 "2022-06-01"
   } num_value_;
   std::string str_value_;
 };
