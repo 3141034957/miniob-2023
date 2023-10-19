@@ -27,7 +27,6 @@ enum AttrType
   INTS,           ///< 整数类型(4字节)
   FLOATS,         ///< 浮点数类型(4字节)
   BOOLEANS,       ///< boolean类型，当前不是由parser解析出来的，是程序内部使用的
-  DATES,     ///< 日期类型
 };
 
 const char *attr_type_to_string(AttrType type);
@@ -51,7 +50,6 @@ public:
   explicit Value(float val);
   explicit Value(bool val);
   explicit Value(const char *s, int len = 0);
-  explicit Value(const std::string &date) : attr_type_(DATES), date_value_(date) {}
 
 
   Value(const Value &other) = default;
@@ -71,11 +69,6 @@ public:
   void set_boolean(bool val);
   void set_string(const char *s, int len = 0);
   void set_value(const Value &value);
-  void set_date(const std::string &date)
-  {
-    attr_type_  = DATES;
-    date_value_ = date;
-  }
 
   std::string to_string() const;
 
@@ -101,13 +94,6 @@ public:
   float get_float() const;
   std::string get_string() const;
   bool get_boolean() const;
-  std::string get_date() const
-  {
-    if (attr_type_ == DATES) {
-      return date_value_;
-    }
-    throw std::runtime_error("Value is not of DATE type.");
-  }
 
 private:
   AttrType attr_type_ = UNDEFINED;
@@ -117,7 +103,6 @@ private:
     int int_value_;
     float float_value_;
     bool bool_value_;
-    std::string date_value_;  // 日期以字符串表示，如 "2022-06-01"
   } num_value_;
   std::string str_value_;
 };
