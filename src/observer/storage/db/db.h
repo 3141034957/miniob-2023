@@ -60,8 +60,6 @@ public:
 
   CLogManager *clog_manager();
 
-  RC drop_table(const char *table_name);
-
 private:
   RC open_all_tables();
 

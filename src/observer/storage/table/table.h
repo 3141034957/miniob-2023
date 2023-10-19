@@ -87,8 +87,6 @@ public:
 
   RC get_record_scanner(RecordFileScanner &scanner, Trx *trx, bool readonly);
 
-  RC destory(const char *dir);
-
   RecordFileHandler *record_handler() const
   {
     return record_handler_;
