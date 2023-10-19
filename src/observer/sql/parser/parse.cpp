@@ -68,3 +68,55 @@ bool check_date(int y, int m, int d)
   bool       leap  = (y % 400 == 0 || (y % 100 && y % 4 == 0));
   return y > 0 && (m > 0) && (m <= 12) && (d > 0) && (d <= ((m == 2 && leap) ? 1 : 0) + mon[m]);
 }
+
+case INTS:
+case DATES: {
+  // 没有考虑大小端问题
+  // 对int和float，要考虑字节对齐问题,有些平台下直接转换可能会跪
+  int left   = *(int *)left_value;
+  int right  = *(int *)right_value;
+  cmp_result = left - right;
+} break;
+
+case INTS:
+case DATES: {
+  i1 = *(int *)pdata;
+  i2 = *(int *)pkey;
+  if (i1 > i2)
+    return 1;
+  if (i1 < i2)
+    return -1;
+  if (i1 == i2)
+    return 0;
+} break;
+
+const char *ATTR_TYPE_NAME[] = {"undefined", "chars", "ints", "floats", "dates"};
+
+switch (field->type()) {
+    case INTS:
+    case DATES: {
+      deserialize_stream.clear();  // 清理stream的状态，防止多次解析出现异常
+      deserialize_stream.str(file_value);
+
+      int int_value;
+      deserialize_stream >> int_value;
+      if (!deserialize_stream || !deserialize_stream.eof()) {
+        errmsg << "need an integer but got '" << file_values[i] << "' (field index:" << i << ")";
+
+        rc = RC::SCHEMA_FIELD_TYPE_MISMATCH;
+      } else {
+        value_init_integer(&record_values[i], int_value);
+      }
+    }
+
+case DATES: {
+      int  value   = *(int *)(record + field_meta->offset());
+      char buf[16] = {0};
+      snprintf(buf,
+          sizeof(buf),
+          "%04d-%02d-%02d",
+          value / 10000,
+          (value % 10000) / 100,
+          value % 100);  // 注意这里月份和天数，不足两位时需要填充0
+      tuple.add(buf, strlen(buf));
+    } break;
